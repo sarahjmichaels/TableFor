@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "TableFor"
+description = "A small, straightforward expense-splitting app that calculates each person's share and keeps a recent local history of calculations."
+version = "1.0.0"
+id = "artifacts/tablefor"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18526
+
+[services.development]
+run = "pnpm --filter @workspace/tablefor run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/tablefor", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/tablefor/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18526"
+BASE_PATH = "/"
